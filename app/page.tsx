@@ -1,10 +1,12 @@
 import NavMenu from './components/NavMenu'
 import ScrollAnimations from './components/ScrollAnimations'
 import MapWidget from './components/MapWidget'
+import Intro from './components/Intro'
 
 export default function HomePage() {
   return (
     <>
+      <Intro />
       <ScrollAnimations />
       {/* =========================================
           NAV

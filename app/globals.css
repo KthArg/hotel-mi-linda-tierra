@@ -679,7 +679,7 @@ img { display: block; max-width: 100%; }
   position: relative;
   background: var(--forest);
   color: var(--paper);
-  padding: 180px 80px 240px;
+  padding: 180px 80px 320px;
   overflow: hidden;
 }
 /* DOWN curve — paper bg arches down into instalaciones */
@@ -1196,6 +1196,180 @@ img { display: block; max-width: 100%; }
 
 
 /* ======================================================
+   INTRO — Disclaimer modal + Loader
+====================================================== */
+
+/* Disclaimer backdrop */
+.intro-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(20, 30, 12, 0.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.4s ease;
+}
+.intro-backdrop.fade-out { opacity: 0; pointer-events: none; }
+
+.disclaimer-card {
+  background: var(--paper);
+  background-image: radial-gradient(circle at 80% 20%, rgba(232,214,138,.18), transparent 50%);
+  border-radius: 20px;
+  padding: 56px 48px 48px;
+  max-width: 510px;
+  width: 100%;
+  text-align: center;
+  color: var(--ink);
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,.45);
+  animation: card-in 0.55s cubic-bezier(0.2,0.8,0.3,1) both;
+}
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+.disclaimer-chip {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--moss);
+  border: 1px solid rgba(79,102,36,.35);
+  border-radius: 999px;
+  padding: 6px 18px;
+  margin-bottom: 32px;
+}
+
+.disclaimer-title {
+  font-family: 'Italiana', serif;
+  font-size: 54px;
+  font-weight: 400;
+  color: var(--forest);
+  line-height: 1;
+  margin-bottom: 24px;
+  letter-spacing: -0.01em;
+}
+
+.disclaimer-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--ink);
+  opacity: 0.85;
+  max-width: 420px;
+  margin: 0 auto 40px;
+}
+.disclaimer-body strong { color: var(--forest); font-weight: 700; opacity: 1; }
+
+.disclaimer-btn {
+  display: inline-block;
+  padding: 18px 40px;
+  background: var(--forest);
+  color: var(--paper);
+  border: none;
+  cursor: pointer;
+  font-family: 'Italiana', serif;
+  font-size: 15px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  transition: background 0.3s, transform 0.3s;
+}
+.disclaimer-btn:hover { background: var(--moss); transform: translateY(-2px); }
+
+/* Loader */
+.loader-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--forest);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity 0.75s ease;
+}
+.loader-screen.fade-out { opacity: 0; pointer-events: none; }
+
+.loader-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--butter);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: ldr-up 0.7s 0.1s cubic-bezier(0.2,0.8,0.3,1) forwards;
+}
+
+.loader-brand {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 160px;
+  font-weight: 400;
+  color: var(--paper);
+  line-height: 0.88;
+  text-shadow: 0 8px 48px rgba(0,0,0,.35);
+  margin-bottom: 18px;
+  opacity: 0;
+  animation: ldr-up 0.9s 0.2s cubic-bezier(0.2,0.8,0.3,1) forwards;
+}
+
+.loader-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 18px;
+  color: var(--paper);
+  opacity: 0;
+  animation: ldr-up 0.7s 0.38s cubic-bezier(0.2,0.8,0.3,1) forwards;
+  margin-bottom: 0;
+}
+
+.loader-bar-wrap {
+  width: 160px;
+  height: 1px;
+  background: rgba(241,234,217,.18);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 52px;
+  opacity: 0;
+  animation: ldr-up 0.5s 0.5s ease forwards;
+}
+
+.loader-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--butter);
+  transform-origin: left;
+  transform: scaleX(0);
+  /* delay 0.7s + duration 1.5s = ends at 2.2s from loader mount */
+  animation: bar-fill 1.5s 0.7s cubic-bezier(0.3,0,0.15,1) forwards;
+}
+
+@keyframes ldr-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes bar-fill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@media (max-width: 768px) {
+  .disclaimer-card { padding: 44px 28px 36px; }
+  .disclaimer-title { font-size: 40px; }
+  .disclaimer-body { font-size: 16px; }
+  .loader-brand { font-size: 96px; }
+  .loader-bar-wrap { margin-top: 40px; }
+}
+
+
+/* ======================================================
    SCROLL-REVEAL — IntersectionObserver animations
 ====================================================== */
 
@@ -1290,7 +1464,7 @@ img { display: block; max-width: 100%; }
   .srv-card:nth-child(2n) { border-right: none; }
   .srv-card:nth-child(2n+1) { border-right: 1px solid rgba(79,102,36,.2); }
 
-  .instalaciones { padding: 160px 60px 120px; }
+  .instalaciones { padding: 160px 60px 320px; }
   .inst-header h2 { font-size: 72px; }
   .inst-header h2 em { font-size: 96px; }
   .inst-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -1303,7 +1477,8 @@ img { display: block; max-width: 100%; }
 
   .booking-inner { grid-template-columns: 1fr; }
   .booking-img { display: none; }
-  .booking-form { padding: 80px 60px; }
+  /* arch visible ~100px from top — increase padding to clear it */
+  .booking-form { padding: 140px 60px 80px; }
 
   .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
 }
@@ -1349,8 +1524,8 @@ img { display: block; max-width: 100%; }
   .prologue-text h2 em { font-size: 70px; }
   .prologue-text p { font-size: 17px; }
 
-  /* Rooms */
-  .rooms { padding: 80px 0 160px; }
+  /* Rooms — arch visible ~100px from top/bottom, increase padding to clear both */
+  .rooms { padding: 140px 0 240px; }
   .rooms-header { margin-bottom: 60px; }
   .rooms-header h2 { font-size: 56px; }
   .rooms-header h2 em { font-size: 76px; vertical-align: -6px; }
@@ -1369,8 +1544,8 @@ img { display: block; max-width: 100%; }
   .srv-card { border-right: none !important; }
   .srv-card:nth-child(n) { border-right: none; }
 
-  /* Instalaciones */
-  .instalaciones { padding: 80px 24px 160px; }
+  /* Instalaciones — extra clearance so last card clears the arch peak */
+  .instalaciones { padding: 140px 24px 320px; }
   .inst-header h2 { font-size: 52px; }
   .inst-header h2 em { font-size: 72px; }
   .inst-grid { grid-template-columns: 1fr; gap: 16px; }
@@ -1383,8 +1558,8 @@ img { display: block; max-width: 100%; }
   .contacto-items { grid-template-columns: 1fr; gap: 28px; }
   .map-card { height: 360px; border-radius: 24px; }
 
-  /* Booking */
-  .booking-form { padding: 60px 24px 80px; }
+  /* Booking — arch clearance */
+  .booking-form { padding: 130px 24px 80px; }
   .booking-form h2 { font-size: 48px; }
   .form-fields { grid-template-columns: 1fr; }
   .field.full { grid-column: 1; }
